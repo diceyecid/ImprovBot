@@ -21,6 +21,7 @@ def message():
 
     print( res )
 
+    # loop replies
     replies = []
     for i in range( len( res ) ):
         try:

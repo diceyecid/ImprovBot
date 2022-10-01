@@ -3,10 +3,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>ImprovBot</title>
+	<script src="../static/javascript/index.js" defer></script>
 </head>
 <body>
 	<h1>ImprovBot</h1>
-	<form action="">
+	<form>
 		<label for="text">You:</label>
 		<input type="text" id="text" name="text">
 		<br>
@@ -15,6 +16,10 @@
 		<p>{{ msg }}</p>
 		{% endfor %}
 	</form>
+
+	<button id="start">Start</button>
+	<button id="stop">Stop</button>
+	<a id="download">Download</a>
 	
 </body>
 </html>
