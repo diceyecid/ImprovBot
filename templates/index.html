@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ImprovBot</title>
+</head>
+<body>
+	<h1>ImprovBot</h1>
+	<form action="">
+		<label for="text">You:</label>
+		<input type="text" id="text" name="text">
+		<br>
+		
+		{% for msg in botMessages %}
+		<p>{{ msg }}</p>
+		{% endfor %}
+	</form>
+	
+</body>
+</html>
