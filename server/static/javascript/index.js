@@ -1,3 +1,6 @@
+// backend api
+const api = 'http://127.0.0.1:5000/api/';
+
 // get buttons
 const startBtn = document.getElementById( 'start' );
 const stopBtn = document.getElementById( 'stop' );
@@ -15,7 +18,20 @@ const findType = () =>
 	}
 
 	return '';
-}
+};
+
+// display bot message from backend response
+const displayBotMessages = ( messages ) =>
+{
+	const botMessages = document.getElementById( 'bot-messages' );
+
+	for( let msg of messages )
+	{
+		const msgItem = document.createElement( 'li' );
+		msgItem.innerText = msg;
+		botMessages.appendChild( msgItem );
+	}
+};
 
 // recorder function
 const recordVoice = ( stream ) => 
@@ -43,8 +59,25 @@ const recordVoice = ( stream ) =>
 	// finished recording and construct audio file
 	mediaRecorder.addEventListener( 'stop', () =>
 	{
-		downloadLink.href = URL.createObjectURL( new Blob( recordedChunks ) );
+		// download link
+		const file = new Blob( recordedChunks, { type: 'audio/' + mediaType } );
+		downloadLink.href = URL.createObjectURL( file );
 		downloadLink.download = 'test.' + mediaType;
+
+		// send to backend
+		console.log( file );
+		const data = new FormData();
+		data.append( 'file', file, 'test.' + mediaType );
+		fetch( api + 'userMessage', { method: 'POST', body: data } )
+			.then( res => res.json() )
+			.then( data =>
+			{
+				console.log( data );
+				if( data.success )
+					displayBotMessages( data.message );
+				else
+					console.log( data.message );
+			} );
 	} );
 
 	// stop button
@@ -55,7 +88,8 @@ const recordVoice = ( stream ) =>
 
 	// start recording
 	mediaRecorder.start();
-}
+	console.log( 'start' )
+};
 
 startBtn.addEventListener( 'click', () =>
 {

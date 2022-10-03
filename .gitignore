@@ -18,9 +18,12 @@ build/
 docs/_build/
 .vscode
 .vim
+.config
 
 # Coverage reports
 htmlcov/
 .coverage
 .coverage.*
 *,cover
+
+recordings/
