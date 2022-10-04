@@ -7,6 +7,8 @@ import requests
 import os
 import json
 import whisper
+import pyttsx3
+# from TTS.utils.synthesizer import Synthesizer
 
 
 #---------- constants ----------#
@@ -16,6 +18,8 @@ RASA_API = 'http://localhost:5005/webhooks/rest/webhook'
 RECORDING_DIR = './recordings'
 VALID_EXT = [ 'wav', 'mp3', 'mp4', 'webm' ]
 STT_MODEL = whisper.load_model( 'base' )
+TTS_ENGINE = pyttsx3.init()
+# TTS_MODEL = Synthesizer( './tts_model/best_model.pth.tar', './tts_model/config.json' )
 
 
 #---------- flask app configs ----------#
@@ -93,6 +97,14 @@ def userMessage():
             replies.append( res[i]['text'] )
         except:
             continue
+
+    # text-to-speech
+    for i, r in enumerate( replies ):
+        TTS_ENGINE.save_to_file( r, 'test' + str( i ) + '.mp3' )
+        TTS_ENGINE.runAndWait()
+        # TTS_MODEL.tts( r )
+        # TTS_MODEL.save_wav( r, 'test' + str( i ) + '.wav' )
+    
 
     return jsonify( success = True, message = replies )
 
