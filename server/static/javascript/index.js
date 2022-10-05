@@ -2,9 +2,9 @@
 const api = 'http://127.0.0.1:5000/api/';
 
 // get html elements
-const startBtn = document.getElementById( 'start' );
-const stopBtn = document.getElementById( 'stop' );
-const speakBtn = document.getElementById( 'speak' );
+const speakBtn = document.getElementById( 'speak-btn' );
+const mutedIcon = document.getElementById( 'muted-icon' );
+const unmutedIcon = document.getElementById( 'unmuted-icon' );
 const audio = document.getElementById( 'audio' );
 
 // flag to determine if user is recording
@@ -87,7 +87,9 @@ const prepareRecording = ( stream ) =>
 		{
 			// stop recording
 			mediaRecorder.stop();
-			speakBtn.innerHTML = 'Start Speaking';
+			//speakBtn.innerHTML = 'Start Speaking';
+			mutedIcon.style.display = 'block';
+			unmutedIcon.style.display = 'none';
 			isSpeaking = false;
 			console.log( 'stop' );
 		}
@@ -96,7 +98,9 @@ const prepareRecording = ( stream ) =>
 			// start recording
 			mediaRecorder.start();
 			isSpeaking = true;
-			speakBtn.innerHTML = 'Stop Speaking';
+			mutedIcon.style.display = 'none';
+			unmutedIcon.style.display = 'block';
+			//speakBtn.innerHTML = 'Stop Speaking';
 			console.log( 'start' );
 		}
 	} );

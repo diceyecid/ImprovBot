@@ -3,11 +3,49 @@
 <head>
 	<meta charset="UTF-8">
 	<title>ImprovBot</title>
+	<link rel="stylesheet" href="../static/style/style.css">
 	<script src="../static/javascript/index.js" defer></script>
 </head>
 <body>
-	<h1>ImprovBot</h1>
-	<button id="speak">Start Speaking</button>
-	<audio id="audio" controls></audio>
+	<header id="header">
+		<img src="../static/assets/ubc_logo.png" alt="UBC Logo">
+		<img src="../static/assets/user_pfp.png" alt="User Profile Photo">
+	</header>
+	
+	<section id="title-section">
+		<button id="back-btn">
+			<img src="../static/assets/back_icon.png" alt="Back Button">
+		</button>
+		<h1 id="topic">HarmonyMind: How to Explain the Product?</h1>
+	</section>
+
+	<main id="main">
+		<section id="client-section">
+
+		</section>
+		<section id="user-section">
+			<div id="user-notes-div">
+				<img src="../static/assets/pen_icon.png" alt="Edit Icon">
+				<label id="user-notes-label" for="user-notes">Note Taking</label>
+				<textarea id="user-notes" name="user-notes" cols="20" rows="36"></textarea>
+			</div>
+			<img src="../static/assets/user_greybox.png" alt="User Camera">
+		</section>
+	</main>
+
+	<section id="toolbar-section">
+		<div id="toolbar">
+			<img class="tool-btn" src="../static/assets/gear_icon.png" alt="Settings">
+			<button id="speak-btn" class="tool-btn">
+				<img id="muted-icon" src="../static/assets/microphone_icon.png" alt="Microphone">
+				<img id="unmuted-icon" src="../static/assets/microphone_red_icon.png" alt="Microphone">
+			</button>
+			<img class="tool-btn" src="../static/assets/camera_icon.png" alt="Camera">
+			<img class="tool-btn" src="../static/assets/play_icon.png" alt="Play">
+		</div>
+		<audio id="audio" controls></audio>
+		<button id="end-btn">End</button>
+	</section>
+
 </body>
 </html>
