@@ -9,7 +9,6 @@ import time
 import json
 import whisper
 import pyttsx3
-# from TTS.utils.synthesizer import Synthesizer
 
 
 #---------- constants ----------#
@@ -17,10 +16,10 @@ import pyttsx3
 
 RASA_API = 'http://localhost:5005/webhooks/rest/webhook'
 RECORDING_DIR = './recordings'
+BOT_MESSAGE_DIR = './bot_messages'
 VALID_EXT = [ 'wav', 'mp3', 'mp4', 'webm' ]
 STT_MODEL = whisper.load_model( 'base' )
 TTS_ENGINE = pyttsx3.init()
-# TTS_MODEL = Synthesizer( './tts_model/best_model.pth.tar', './tts_model/config.json' )
 
 
 #---------- flask app configs ----------#
@@ -34,7 +33,7 @@ app.config['UPLOAD_FOLDER'] = RECORDING_DIR
 
 
 voices = TTS_ENGINE.getProperty( 'voices' )
-TTS_ENGINE.setProperty( 'voice', voices[1].id )
+TTS_ENGINE.setProperty( 'voice', voices[2].id )
 
 
 #---------- helper functions ----------#
@@ -95,25 +94,24 @@ def userMessage():
     # speech-to-text
     msg = STT_MODEL.transcribe( audio = os.path.join( RECORDING_DIR, filename ), 
                                 language = 'en' )
-    print( msg )
+    msgText = str( msg['text'] ).strip()
+    print( 'user: ', msgText )
 
     # loop replies
-    res = getReply( msg['text'] )
+    res = getReply( msgText )
     replies = []
-    audios = []
     for i in range( len( res ) ):
         try:
             replies.append( res[i]['text'] )
         except:
             continue
     reply = ' '.join( replies )
+    print( 'bot: ', reply )
 
     # text-to-speech
-    replyFilename = str( time.time() ) + '.mp3'
+    replyFilename = os.path.join( BOT_MESSAGE_DIR, str( time.time() ) + '.mp3' )
     TTS_ENGINE.save_to_file( reply, replyFilename )
     TTS_ENGINE.runAndWait()
-    # TTS_MODEL.tts( r )
-    # TTS_MODEL.save_wav( r, 'test' + str( i ) + '.wav' )
 
     return send_file( replyFilename ), 200
 
