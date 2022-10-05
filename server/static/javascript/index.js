@@ -38,7 +38,7 @@ const prepareRecording = ( stream ) =>
 	// initiate media recorder
 	const options = { mimeType: 'audio/' + mediaType };
 	const mediaRecorder = new MediaRecorder( stream, options );
-	const recordedChunks = [];
+	let recordedChunks = [];
 
 	// recording 
 	mediaRecorder.addEventListener( 'dataavailable', ( e ) =>
@@ -70,6 +70,7 @@ const prepareRecording = ( stream ) =>
 							const audioURL = URL.createObjectURL( audioBlob );
 							const audio = document.getElementById( 'audio' );
 							audio.src = audioURL;
+							audio.play();
 						} );
 				}
 				else if( res.status == 400 )
@@ -79,6 +80,9 @@ const prepareRecording = ( stream ) =>
 						.then( data => console.log( data.message ) );
 				}
 			} )
+
+		// clear recordedChunks
+		recordedChunks = [];
 	} );
 
 	speakBtn.addEventListener( 'click', () =>
