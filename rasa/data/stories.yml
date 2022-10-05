@@ -2,29 +2,33 @@ version: "3.1"
 
 stories:
 
-- story: happy path
+- story: beginning of conversation with user happy
   steps:
   - intent: greet
   - action: utter_greet
   - intent: mood_great
   - action: utter_happy
+  - checkpoint: check_ask_platform
 
-- story: sad path 1
+- story: beginning of conversation with user unhappy
   steps:
   - intent: greet
   - action: utter_greet
   - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
+  - action: utter_unhappy
+  - checkpoint: check_ask_platform
 
-- story: sad path 2
+- story: no greeting, goes into topic directly
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
+    - checkpoint: check_ask_platform
+
+- story: explain platform
+  steps:
+    - checkpoint: check_ask_platform
+    - intent: which_platform
+    - action: utter_which_platform
+    - intent: explain_platform
+    - action: utter_explain_platform
+    - intent: platform_examples
+    - action: utter_platform_examples
+    - action: times_up

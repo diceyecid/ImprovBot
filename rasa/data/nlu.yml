@@ -34,15 +34,19 @@ nlu:
   examples: |
     - yes
     - y
+    - yeah
     - indeed
     - of course
     - that sounds good
     - correct
+    - yas
 
 - intent: deny
   examples: |
     - no
     - n
+    - nah
+    - neh
     - never
     - I don't think so
     - don't like that
@@ -58,6 +62,7 @@ nlu:
     - wonderful
     - I am feeling very good
     - I am great
+    - I am good
     - I am amazing
     - I am going to save the world
     - super stoked
@@ -89,3 +94,32 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+
+- intent: which_platform
+  examples: |
+    - On which platform would you like to release the app?
+    - which platform
+    - on which platform
+    - on which platform do we release the app
+    - where do we release the app
+    - where to release the app
+    - where to release
+    - where are we releasing
+    - where we release
+    - where we releasing
+    - where do we provide the app
+    - where is the app available
+    - where will the app be available
+
+- intent: explain_platform
+  examples: |
+    - platform is
+    - Platform is a kind of digital marketplace that provides apps for devices such as tablets and phones.
+    - by platform I mean
+
+- intent: platform_examples
+  examples: |
+    - platform I mean on what type of device will the app be available? On iPhone? Smartphones? Computer?
+    - type of device
+    - what device
+    - what kind of device
