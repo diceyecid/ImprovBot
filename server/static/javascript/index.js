@@ -4,7 +4,11 @@ const api = 'http://127.0.0.1:5000/api/';
 // get html elements
 const startBtn = document.getElementById( 'start' );
 const stopBtn = document.getElementById( 'stop' );
+const speakBtn = document.getElementById( 'speak' );
 const audio = document.getElementById( 'audio' );
+
+// flag to determine if user is recording
+let isSpeaking = false;
 
 // find supported recording type
 const findType = () =>
@@ -20,21 +24,8 @@ const findType = () =>
 	return '';
 };
 
-// display bot message from backend response
-const displayBotMessages = ( messages ) =>
-{
-	const botMessages = document.getElementById( 'bot-messages' );
-
-	for( let msg of messages )
-	{
-		const msgItem = document.createElement( 'li' );
-		msgItem.innerText = msg;
-		botMessages.appendChild( msgItem );
-	}
-};
-
 // recorder function
-const recordVoice = ( stream ) => 
+const prepareRecording = ( stream ) => 
 {
 	// find recording type
 	const mediaType = findType();
@@ -90,20 +81,27 @@ const recordVoice = ( stream ) =>
 			} )
 	} );
 
-	// stop button
-	stopBtn.addEventListener( 'click', () =>
+	speakBtn.addEventListener( 'click', () =>
 	{
-		mediaRecorder.stop();
+		if( isSpeaking )
+		{
+			// stop recording
+			mediaRecorder.stop();
+			speakBtn.innerHTML = 'Start Speaking';
+			isSpeaking = false;
+			console.log( 'stop' );
+		}
+		else
+		{
+			// start recording
+			mediaRecorder.start();
+			isSpeaking = true;
+			speakBtn.innerHTML = 'Stop Speaking';
+			console.log( 'start' );
+		}
 	} );
-
-	// start recording
-	mediaRecorder.start();
-	console.log( 'start' )
 };
 
-startBtn.addEventListener( 'click', () =>
-{
-	// ask permission and then record
-	navigator.mediaDevices.getUserMedia( { audio: true, video: false } )
-		.then( recordVoice );
-} );
+// ask user for recording permission
+navigator.mediaDevices.getUserMedia( { audio: true, video: false } )
+	.then( prepareRecording );
