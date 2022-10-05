@@ -1,10 +1,10 @@
 // backend api
 const api = 'http://127.0.0.1:5000/api/';
 
-// get buttons
+// get html elements
 const startBtn = document.getElementById( 'start' );
 const stopBtn = document.getElementById( 'stop' );
-const downloadLink = document.getElementById( 'download' );
+const audio = document.getElementById( 'audio' );
 
 // find supported recording type
 const findType = () =>
@@ -59,25 +59,35 @@ const recordVoice = ( stream ) =>
 	// finished recording and construct audio file
 	mediaRecorder.addEventListener( 'stop', () =>
 	{
-		// download link
+		// construct file
 		const file = new Blob( recordedChunks, { type: 'audio/' + mediaType } );
-		downloadLink.href = URL.createObjectURL( file );
-		downloadLink.download = 'test.' + mediaType;
+		console.log( file );
 
 		// send to backend
-		console.log( file );
 		const data = new FormData();
 		data.append( 'file', file, 'test.' + mediaType );
 		fetch( api + 'userMessage', { method: 'POST', body: data } )
-			.then( res => res.json() )
-			.then( data =>
+			.then( res =>
 			{
-				console.log( data );
-				if( data.success )
-					displayBotMessages( data.message );
-				else
-					console.log( data.message );
-			} );
+				console.log( res );
+				if( res.status == 200 )
+				{
+					// add audio to player
+					res.blob()
+						.then( audioBlob =>
+						{
+							const audioURL = URL.createObjectURL( audioBlob );
+							const audio = document.getElementById( 'audio' );
+							audio.src = audioURL;
+						} );
+				}
+				else if( res.status == 400 )
+				{
+					// something went wrong
+					res.json()
+						.then( data => console.log( data.message ) );
+				}
+			} )
 	} );
 
 	// stop button

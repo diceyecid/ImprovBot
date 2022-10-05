@@ -7,24 +7,8 @@
 </head>
 <body>
 	<h1>ImprovBot</h1>
-	<form>
-		<label for="text">You:</label>
-		<input type="text" id="text" name="text">
-		<br>
-		
-		{% for msg in botMessages %}
-		<p>{{ msg }}</p>
-		{% endfor %}
-	</form>
-
 	<button id="start">Start</button>
 	<button id="stop">Stop</button>
-	<a id="download">Download</a>
-
-	<ul id="bot-messages"></ul>
-
-
-	<p>{{ transcribedMessage }}</p>
-	
+	<audio id="audio" controls></audio>
 </body>
 </html>

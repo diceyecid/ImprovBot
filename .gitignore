@@ -27,3 +27,4 @@ htmlcov/
 *,cover
 
 recordings/
+bot_messages/

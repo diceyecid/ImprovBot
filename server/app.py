@@ -1,10 +1,11 @@
 #---------- imports ----------#
 
 
-from flask import Flask, redirect, url_for, request, render_template, flash, jsonify
+from flask import Flask, redirect, url_for, request, render_template, flash, jsonify, send_file
 from werkzeug.utils import secure_filename
 import requests
 import os
+import time
 import json
 import whisper
 import pyttsx3
@@ -27,6 +28,13 @@ TTS_ENGINE = pyttsx3.init()
 
 app = Flask( __name__, template_folder = 'templates' )
 app.config['UPLOAD_FOLDER'] = RECORDING_DIR
+
+
+#---------- TTS configs ----------#
+
+
+voices = TTS_ENGINE.getProperty( 'voices' )
+TTS_ENGINE.setProperty( 'voice', voices[1].id )
 
 
 #---------- helper functions ----------#
@@ -82,7 +90,7 @@ def userMessage():
     files = request.files
     filename = saveFile( files )
     if not filename:
-        return jsonify( success = False, message = 'Failed to save file' )
+        return jsonify( message = 'Failed to save file' ), 400
 
     # speech-to-text
     msg = STT_MODEL.transcribe( audio = os.path.join( RECORDING_DIR, filename ), 
@@ -92,21 +100,22 @@ def userMessage():
     # loop replies
     res = getReply( msg['text'] )
     replies = []
+    audios = []
     for i in range( len( res ) ):
         try:
             replies.append( res[i]['text'] )
         except:
             continue
+    reply = ' '.join( replies )
 
     # text-to-speech
-    for i, r in enumerate( replies ):
-        TTS_ENGINE.save_to_file( r, 'test' + str( i ) + '.mp3' )
-        TTS_ENGINE.runAndWait()
-        # TTS_MODEL.tts( r )
-        # TTS_MODEL.save_wav( r, 'test' + str( i ) + '.wav' )
-    
+    replyFilename = str( time.time() ) + '.mp3'
+    TTS_ENGINE.save_to_file( reply, replyFilename )
+    TTS_ENGINE.runAndWait()
+    # TTS_MODEL.tts( r )
+    # TTS_MODEL.save_wav( r, 'test' + str( i ) + '.wav' )
 
-    return jsonify( success = True, message = replies )
+    return send_file( replyFilename ), 200
 
 
 #---------- main ----------#
