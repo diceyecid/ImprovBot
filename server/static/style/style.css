@@ -64,9 +64,24 @@ html, body
 #client-section
 {
 	margin-right: 2rem;
-	background-color: grey;
 	height: 720px;
 	width: 1280px;
+	position: relative;
+}
+
+#client-bg
+{
+	z-index: -1;
+	height: 720px;
+	filter: blur( 2px );
+}
+
+#client-img
+{
+	height: 720px;
+	position: absolute;
+	left: calc( calc( 1280px - 720px ) / 2 );
+	margin: auto;
 }
 
 #user-section
@@ -98,7 +113,7 @@ html, body
 }
 
 
-/********** Main section **********/
+/********** Toolbar section **********/
 
 
 #toolbar-section

@@ -27,12 +27,15 @@ responses:
 
   utter_which_platform:
     - text: "What do you mean by platform?"
+      image: "meredith_confused_cropped.png"
 
   utter_explain_platform:
     - text: "I don't understand..."
+      image: "meredith_sad_cropped.png"
 
   utter_platform_examples:
     - text: "I want it to be available for everyone!"
+      image: "meredith_laugh_cropped.png"
 
   utter_times_up:
     - text: "Oh, sorry, I have to go now. I will see you next time! Bye!"
@@ -44,5 +47,5 @@ responses:
     - text: "Sorry, I didn't understand that, can you rephrase?"
 
 session_config:
-  session_expiration_time: 15
-  carry_over_slots_to_new_session: true
+  session_expiration_time: 5
+  carry_over_slots_to_new_session: false

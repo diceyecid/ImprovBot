@@ -8,7 +8,6 @@ stories:
   - action: utter_greet
   - intent: mood_great
   - action: utter_happy
-  - checkpoint: check_ask_platform
 
 - story: beginning of conversation with user unhappy
   steps:
@@ -16,19 +15,35 @@ stories:
   - action: utter_greet
   - intent: mood_unhappy
   - action: utter_unhappy
-  - checkpoint: check_ask_platform
-
-- story: no greeting, goes into topic directly
-  steps:
-    - checkpoint: check_ask_platform
 
 - story: explain platform
   steps:
-    - checkpoint: check_ask_platform
     - intent: which_platform
     - action: utter_which_platform
     - intent: explain_platform
     - action: utter_explain_platform
+    - intent: platform_examples
+    - action: utter_platform_examples
+    - action: utter_times_up
+
+- story: explain platform 2
+  steps:
+    - intent: explain_platform
+    - action: utter_explain_platform
+    - intent: platform_examples
+    - action: utter_platform_examples
+    - action: utter_times_up
+      
+- story: explain platform 3
+  steps:
+    - intent: which_platform
+    - action: utter_which_platform
+    - intent: platform_examples
+    - action: utter_platform_examples
+    - action: utter_times_up
+
+- story: explain platform 4
+  steps:
     - intent: platform_examples
     - action: utter_platform_examples
     - action: utter_times_up

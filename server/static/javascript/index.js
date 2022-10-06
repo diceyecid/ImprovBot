@@ -2,6 +2,7 @@
 const api = 'http://127.0.0.1:5000/api/';
 
 // get html elements
+const clientImg = document.getElementById( 'client-img' );
 const speakBtn = document.getElementById( 'speak-btn' );
 const mutedIcon = document.getElementById( 'muted-icon' );
 const unmutedIcon = document.getElementById( 'unmuted-icon' );
@@ -63,14 +64,32 @@ const prepareRecording = ( stream ) =>
 				console.log( res );
 				if( res.status == 200 )
 				{
-					// add audio to player
-					res.blob()
-						.then( audioBlob =>
+					res.json()
+						.then( data => 
 						{
-							const audioURL = URL.createObjectURL( audioBlob );
-							const audio = document.getElementById( 'audio' );
-							audio.src = audioURL;
-							audio.play();
+							// fetch audio
+							fetch( api + 'botMessage/' + data.audio )
+								.then( res => res.blob() )
+								.then( audioBlob =>
+								{
+									// add audio to player
+									const audioURL = URL.createObjectURL( audioBlob );
+									audio.src = audioURL;
+									audio.play();
+								} );
+
+							if( data.image != '' )
+							{
+								// fetch expression image
+								fetch( api + 'asset/' + data.image )
+									.then( res => res.blob() )
+									.then( imgBlob =>
+									{
+										const imgURL = URL.createObjectURL( imgBlob );
+										clientImg.src = imgURL;
+									} );
+							}
+							
 						} );
 				}
 				else if( res.status == 400 )

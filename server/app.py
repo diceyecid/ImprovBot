@@ -17,6 +17,7 @@ import pyttsx3
 RASA_API = 'http://localhost:5005/webhooks/rest/webhook'
 RECORDING_DIR = './recordings'
 BOT_MESSAGE_DIR = './bot_messages'
+ASSET_DIR = './static/assets'
 VALID_EXT = [ 'wav', 'mp3', 'mp4', 'webm' ]
 STT_MODEL = whisper.load_model( 'base' )
 TTS_ENGINE = pyttsx3.init()
@@ -108,12 +109,30 @@ def userMessage():
     reply = ' '.join( replies )
     print( 'bot: ', reply )
 
+    # get expression
+    expression = ''
+    for i in range( len( res ) ):
+        if( 'image' in res[i] ):
+            expression = res[i]['image']
+            break
+    print( expression )
+
     # text-to-speech
-    replyFilename = os.path.join( BOT_MESSAGE_DIR, str( time.time() ) + '.mp3' )
-    TTS_ENGINE.save_to_file( reply, replyFilename )
+    replyFilename = str( time.time() ) + '.mp3'
+    TTS_ENGINE.save_to_file( reply, os.path.join( BOT_MESSAGE_DIR, replyFilename ) )
     TTS_ENGINE.runAndWait()
 
-    return send_file( replyFilename ), 200
+    return jsonify( massage = reply, audio = replyFilename, image = expression ), 200
+
+@app.get( '/api/botMessage/<filename>' )
+def getBotMessage( filename ):
+    filepath = os.path.join( BOT_MESSAGE_DIR, filename )
+    return send_file( filepath ), 200
+
+@app.get( '/api/asset/<assetname>' )
+def getAsset( assetname ):
+    assetpath = os.path.join( ASSET_DIR, assetname )
+    return send_file( assetpath ), 200
 
 
 #---------- main ----------#
