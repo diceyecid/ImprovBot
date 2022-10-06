@@ -119,7 +119,11 @@ nlu:
 
 - intent: platform_examples
   examples: |
-    - platform I mean on what type of device will the app be available? On iPhone? Smartphones? Computer?
-    - type of device
+    - by platform I mean on what type of device will the app be available? 
+    - by platform I mean on what type of device will it be available? 
+    - by platform I mean on what type of device will the app be available? On iPhone? Smartphones? Computer?
+    - by platform I mean on what type of device will it be on?
+    - by platform I mean on what type of device will the app be on?
+    - what type of device
     - what device
     - what kind of device

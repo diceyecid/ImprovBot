@@ -34,7 +34,7 @@ responses:
   utter_platform_examples:
     - text: "I want it to be available for everyone!"
 
-  times_up:
+  utter_times_up:
     - text: "Oh, sorry, I have to go now. I will see you next time! Bye!"
 
   utter_iamMeredith:

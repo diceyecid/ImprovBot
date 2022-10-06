@@ -31,4 +31,4 @@ stories:
     - action: utter_explain_platform
     - intent: platform_examples
     - action: utter_platform_examples
-    - action: times_up
+    - action: utter_times_up
